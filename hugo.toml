@@ -3,3 +3,6 @@ languageCode = 'en-us'
 title = 'thoughts and experiments'
 theme = 'ananke'
 publishDir = 'docs'
+
+[params]
+  description = "A description for my custom Ananke site."
