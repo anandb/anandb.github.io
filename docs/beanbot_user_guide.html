@@ -210,11 +210,11 @@ This page describes every preference in the panel, organised into six sections. 
 &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Preference&lt;/th&gt;&lt;th&gt;Default&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Echo user input immediately (Local Echo)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Renders your message instantly in the chat while the server is processing, instead of waiting for the first response.&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Session Idle Timeout (seconds)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;300&lt;/td&gt;&lt;td&gt;How long (0–3600, step 5) a request may sit idle — with no data arriving from the server — before it is failed. This is an &lt;em&gt;idle&lt;/em&gt; timeout, not an absolute deadline, so long-running responses that keep streaming are never cut off.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Session Idle Timeout (seconds)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;600&lt;/td&gt;&lt;td&gt;How long (0–3600, step 5) a request may sit idle — with no data arriving from the server — before it is failed. This is an &lt;em&gt;idle&lt;/em&gt; timeout, not an absolute deadline, so long-running responses that keep streaming are never cut off.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Combine tool and thought bubbles into a single accordion&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Groups tool outputs and reasoning into one expandable header instead of separate bubbles. Changing this reloads the current session.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Prompt to initialize project opencode.json&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Shows a &lt;em&gt;&quot;Initialize opencode.json&quot;&lt;/em&gt; dialog when a project without one is opened, so you can create a starter configuration (Yes / No – Don&#39;t ask again / Let&#39;s do it later).&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Auto-backup uncommitted changes on turn start (git/hg stash) (Experimental)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Stashes uncommitted changes in git/hg repositories before each turn, so the AI can be rolled back safely.&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Max Messages&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;25&lt;/td&gt;&lt;td&gt;The maximum number of visible bubbles (10–200, step 5) kept in the chat panel before older ones are trimmed from the view to conserve memory. The full history remains on the server and can be reloaded.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Auto-backup uncommitted changes on turn start (git/hg) (Experimental)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Stashes uncommitted changes in git/hg repositories before each turn, so the AI can be rolled back safely.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Max Messages&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;td&gt;The maximum number of visible bubbles (10–200, step 5) kept in the chat panel before older ones are trimmed from the view to conserve memory. The full history remains on the server and can be reloaded.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -352,8 +352,7 @@ The chat panel is packed with features to help you get the most out of the assis
 &gt; [[Attachments]]
 &gt; [[Permission Requests]]
 &gt; [[Commands]]
-&gt; [[Exporting a conversation]]
-&gt; [[Message History]]</tw-passagedata><tw-passagedata pid="8" name="Mini Assistant" tags="" position="1100,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+&gt; [[Exporting a conversation]]</tw-passagedata><tw-passagedata pid="8" name="Mini Assistant" tags="" position="1100,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
   &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Mini Assistant&lt;/div&gt;
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
@@ -563,7 +562,7 @@ When you start a new session, a slide-in confirmation bar appears above the inpu
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-Before each turn, the plugin can back up your uncommitted changes by stashing them (git stash, or hg shelve for Mercurial) so work can be rolled back safely if the AI makes unwanted modifications. The backup appears as an **Auto-Backup** tool bubble in the chat. This is enabled by default under `Options &gt; Assistant &gt; Chat Behavior &gt; Auto-backup uncommitted changes on turn start (git/hg stash) (Experimental)` and can be disabled there.
+Before each turn, the plugin can back up your uncommitted changes by stashing them (git stash, or hg shelve for Mercurial) so work can be rolled back safely if the AI makes unwanted modifications. The backup appears as an **Auto-Backup** tool bubble in the chat. This is enabled by default under `Options &gt; Assistant &gt; Chat Behavior &gt; Auto-backup uncommitted changes on turn start (git/hg) (Experimental)` and can be disabled there.
 
 
 &gt; [[Options Panel Reference]]
@@ -594,7 +593,7 @@ After installing OpenCode — and optionally setting the binary path under `Opti
 The plugin checks for new releases in the background at randomised 16–24 hour intervals. When an update is available, a dialog offers three choices:
 
 *   **Download Now** — open the release to download and install
-*   **Remind me later**
+*   **Remind me Later**
 *   **Skip this Version**
 
 Disable the check under `Options &gt; Assistant &gt; Updates &gt; Check for Updates`.
@@ -632,6 +631,7 @@ If you have strict privacy requirements or want to avoid API costs, you can run 
 
 
 &gt; [[Configuration Template]]
+&gt; [[Install Ollama]]
 &gt; [[Manage OpenCode Config in NetBeans]]
 &gt; [[Picking an Agent, Model and Thinking Level]]</tw-passagedata><tw-passagedata pid="27" name="Copying a message" tags="" position="0,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
   &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Copying a message&lt;/div&gt;
@@ -662,7 +662,7 @@ Here are some interesting things you can try with the plugin:
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-The share button on the toolbar will export the session to a markdown file.
+The share button on the toolbar exports the session to a file. Clicking it opens a small menu where you can choose between **Markdown** and **HTML** — HTML output mimics the sidebar chat view, including the expandable activity panels and chat styling.
 
 
 &gt; [[Customising the Toolbar]]
@@ -742,7 +742,7 @@ Navigate and control the assistant efficiently using keyboard shortcuts:
 &lt;table class=&quot;ug-table&quot;&gt;
 &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Shortcut&lt;/th&gt;&lt;th&gt;Action&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;&lt;td&gt;&lt;code&gt;Ctrl + L&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Open or switch focus to the assistant panel&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;code&gt;Ctrl + L&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Toggle the assistant panel (open or close)&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;Alt + Up&lt;/code&gt; / &lt;code&gt;Alt + Down&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Cycle through previously sent messages&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;Page Up&lt;/code&gt; / &lt;code&gt;Page Down&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Scroll the chat&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;Ctrl + R&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Search message history&lt;/td&gt;&lt;/tr&gt;
@@ -810,8 +810,8 @@ You can use the assistant to run quick data processing tasks on local files (lik
 Since the plugin supports the **Markdown Project** type (which lets you load any folder that has a `.mdproject` file in it), you can use it to manage your OpenCode configuration directly inside the IDE:
 
 1.  Navigate to your OpenCode configuration directory in your terminal:
-    *   **Linux/macOS:** `~/.config/opencode` (or `~/.config/opencode-ai`)
-    *   **Windows:** `%APPDATA%\opencode`
+    *   **Linux/macOS:** `~/.config/opencode`
+    *   **Windows:** `%USERPROFILE%\.config\opencode`
 2.  Create an empty project marker file by running:
     *   `touch .mdproject` (Linux/macOS)
     *   `type nul &gt; .mdproject` (Windows CMD) or `New-Item .mdproject` (PowerShell)
@@ -968,17 +968,19 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Chat Features]]
 &gt; [[Check token usage]]
 &gt; [[Commands]]
-&gt; [[Offline/Private Coding (Local LLMs)]]
 &gt; [[Configuration Template]]
+&gt; [[Configure OpenCode for Ollama]]
 &gt; [[Copying a message]]
 &gt; [[Customising the Toolbar]]
 &gt; [[Experiments]]
 &gt; [[Exporting a conversation]]
+&gt; [[Fetch a Coding Model]]
 &gt; [[Filtering Chat Messages]]
 &gt; [[Git Stashes as &quot;Code Drafts&quot; (using Stash Diff)]]
 &gt; [[IDE Enhancements]]
 &gt; [[Input Area Keys]]
 &gt; [[Inspector Context Menu]]
+&gt; [[Install Ollama]]
 &gt; [[Jump to File]]
 &gt; [[Keyboard Shortcuts]]
 &gt; [[Known Issues]]
@@ -989,6 +991,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Message History]]
 &gt; [[Mini Assistant]]
 &gt; [[New Session Confirm Bar]]
+&gt; [[Offline/Private Coding (Local LLMs)]]
 &gt; [[OpenCode Not Installed]]
 &gt; [[Options Panel Reference]]
 &gt; [[Permission Requests]]
@@ -998,6 +1001,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Renaming the session]]
 &gt; [[Resetting context limits (/compact)]]
 &gt; [[Restarting the server]]
+&gt; [[Select the Model in the Plugin]]
 &gt; [[Send to Assistant]]
 &gt; [[Session Dropdown Menu]]
 &gt; [[Slash Command Autocomplete]]
@@ -1182,7 +1186,7 @@ If the AI requests permission to edit a file or run a command, the permission pr
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-The mini assistant is designed for quick interactions. Some slash commands that require the full options panel (`/models`, `/agents`, `/level`, `/sessions`) are not available in the mini view — use the main panel or its keyboard shortcuts for those.
+The mini assistant is designed for quick interactions. Some slash commands that require the full options panel (`/model`, `/models`, `/agents`, `/level`, `/sessions`) are not available in the mini view — use the main panel or its keyboard shortcuts for those.
 
 The dialog remembers its position and size across sessions, so you can place it wherever is convenient in your workspace.
 
@@ -1191,7 +1195,118 @@ The dialog remembers its position and size across sessions, so you can place it 
 &gt; [[Opening the Mini Assistant]]
 &gt; [[Using the Mini Assistant]]
 &gt; [[Keyboard shortcuts inside the Mini Assistant]]
-&gt; [[Mini Assistant Permission Requests]]</tw-passagedata></tw-storydata>
+&gt; [[Mini Assistant Permission Requests]]</tw-passagedata><tw-passagedata pid="60" name="Install Ollama" tags="" position="2050,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+  &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Install Ollama&lt;/div&gt;
+  &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
+&lt;/div&gt;
+
+[Ollama](https://ollama.com) lets you run open-source models locally on your own machine. The first step is installing it.
+
+Download the installer for your operating system from the [Ollama website](https://ollama.com/download) and run it. On Linux you can also use the install script:
+
+&lt;pre&gt;&lt;code&gt;
+curl -fsSL https://ollama.com/install.sh | sh
+&lt;/code&gt;&lt;/pre&gt;
+
+On macOS, Ollama installs as a regular app — launch it once so the background service starts. **Windows (10 or later)** is also supported: install via the standalone `OllamaSetup.exe` download, or run the PowerShell installer:
+
+&lt;pre&gt;&lt;code&gt;
+irm https://ollama.com/install.ps1 | iex
+&lt;/code&gt;&lt;/pre&gt;
+
+Verify the installation by opening a terminal (or PowerShell on Windows) and running:
+
+&lt;pre&gt;&lt;code&gt;
+ollama --version
+&lt;/code&gt;&lt;/pre&gt;
+
+Once the `ollama` command responds, move on to fetching a coding model.
+
+
+&gt; [[Fetch a Coding Model]]
+&gt; [[Offline/Private Coding (Local LLMs)]]</tw-passagedata><tw-passagedata pid="61" name="Fetch a Coding Model" tags="" position="2050,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+  &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Fetch a Coding Model&lt;/div&gt;
+  &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
+&lt;/div&gt;
+
+With Ollama installed, open a terminal and pull a model suited for code. Good options include:
+
+&lt;pre&gt;&lt;code&gt;
+ollama pull deepseek-coder
+ollama pull qwen2.5-coder
+ollama pull codellama
+ollama pull llama3.1
+&lt;/code&gt;&lt;/pre&gt;
+
+The first run of `ollama run &lt;model&gt;` will download the model if it is not already present. You can see what is installed at any time with:
+
+&lt;pre&gt;&lt;code&gt;
+ollama list
+&lt;/code&gt;&lt;/pre&gt;
+
+Remember the exact model names shown by `ollama list` — you will need them when [[configuring OpenCode-&gt;Configure OpenCode for Ollama]].
+
+
+&gt; [[Install Ollama]]
+&gt; [[Configure OpenCode for Ollama]]
+&gt; [[Offline/Private Coding (Local LLMs)]]</tw-passagedata><tw-passagedata pid="62" name="Configure OpenCode for Ollama" tags="" position="2050,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+  &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Configure OpenCode for Ollama&lt;/div&gt;
+  &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
+&lt;/div&gt;
+
+OpenCode needs to know which provider serves the local model. Open your `opencode.json` configuration file (see [[Configuration Template]] for where this file lives) and add an `ollama` entry to its `provider` section. The rest of your existing file — permissions, etc. — stays untouched, so it looks something like this:
+
+&lt;pre&gt;&lt;code&gt;
+`
+{
+    &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;,
+    &quot;autoupdate&quot;: false,
+    &quot;permission&quot;: {
+        ...
+    },
+    &quot;provider&quot;: {
+        &quot;ollama&quot;: {
+            &quot;npm&quot;: &quot;@ai-sdk/ollama&quot;,
+            &quot;options&quot;: {
+                &quot;baseURL&quot;: &quot;http://localhost:11434/api&quot;
+            },
+            &quot;models&quot;: {
+                &quot;deepseek-coder&quot;: {},
+                &quot;qwen2.5-coder&quot;: {}
+            }
+        }
+    }
+}
+`
+&lt;/code&gt;&lt;/pre&gt;
+
+The `...` stands for whatever permissions and other settings your file already has — keep them, and add the `provider` block alongside them. The exact `models` entries must match the names shown by `ollama list` from the previous step. Qwen models may require `&quot;reasoningEffort&quot;: &quot;none&quot;` and `--think=false` if they are configured via Ollama.
+
+Once the provider block is in place, select the model in the plugin.
+
+
+&gt; [[Fetch a Coding Model]]
+&gt; [[Select the Model in the Plugin]]
+&gt; [[Configuration Template]]
+&gt; [[Manage OpenCode Config in NetBeans]]</tw-passagedata><tw-passagedata pid="63" name="Select the Model in the Plugin" tags="" position="2050,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+  &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Select the Model in the Plugin&lt;/div&gt;
+  &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
+&lt;/div&gt;
+
+After [[configuring OpenCode-&gt;Configure OpenCode for Ollama]], pick your local model in the plugin:
+
+1.  Click the gear icon (or press `Tab` in the input area) to open the chat options panel.
+2.  Pick the **agent** you want to use (e.g. `build` or `plan`).
+3.  Pick your **model** from the model dropdown — the local models configured above will appear there, listed as their provider/model names.
+4.  Choose a suitable **Thinking Level** if the model supports one.
+
+Every query and indexing task now runs entirely on your machine — no data leaves your computer. See [[Offline/Private Coding (Local LLMs)]] for privacy notes and [[Picking an Agent, Model and Thinking Level]] for more on the selectors.
+
+
+&gt; [[Configure OpenCode for Ollama]]
+&gt; [[Offline/Private Coding (Local LLMs)]]
+&gt; [[Picking an Agent, Model and Thinking Level]]
+&gt; [[Options Panel Reference]]</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
