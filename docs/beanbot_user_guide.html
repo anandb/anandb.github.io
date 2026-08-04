@@ -82,6 +82,32 @@ table.ug-table td {
   border: 1px solid var(--text-main);
   padding: 0.5rem;
   text-align: left;
+}
+
+/* Responsive images everywhere (not just inline-styled ones) */
+tw-passage img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  tw-passage {
+    max-width: 100%;
+    padding: 1.25rem 1rem;
+    overflow-wrap: anywhere;
+  }
+  /* Make tables scroll horizontally instead of breaking layout */
+  table.ug-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Hide Harlowe's sidebar on phones to save space */
+  #ui-bar {
+    display: none;
+  }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">window.addEventListener('unhandledrejection', function(event) {
   if (event.reason && event.reason.name === 'DOMException' && event.reason.message.includes('Skipped view transition')) {
     event.preventDefault(); // Prevents the error from clogging the console
