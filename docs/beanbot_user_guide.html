@@ -238,7 +238,6 @@ This page describes every preference in the panel, organised into six sections. 
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Echo user input immediately (Local Echo)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Renders your message instantly in the chat while the server is processing, instead of waiting for the first response.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Session Idle Timeout (seconds)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;600&lt;/td&gt;&lt;td&gt;How long (0–3600, step 5) a request may sit idle — with no data arriving from the server — before it is failed. This is an &lt;em&gt;idle&lt;/em&gt; timeout, not an absolute deadline, so long-running responses that keep streaming are never cut off.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Combine tool and thought bubbles into a single accordion&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Groups tool outputs and reasoning into one expandable header instead of separate bubbles. Changing this reloads the current session.&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Prompt to initialize project opencode.json&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Shows a &lt;em&gt;&quot;Initialize opencode.json&quot;&lt;/em&gt; dialog when a project without one is opened, so you can create a starter configuration (Yes / No – Don&#39;t ask again / Let&#39;s do it later).&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Auto-backup uncommitted changes on turn start (git/hg) (Experimental)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Stashes uncommitted changes in git/hg repositories before each turn, so the AI can be rolled back safely.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Max Messages&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;td&gt;The maximum number of visible bubbles (10–200, step 5) kept in the chat panel before older ones are trimmed from the view to conserve memory. The full history remains on the server and can be reloaded.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
@@ -303,6 +302,8 @@ You can attach files and images to provide more context to the AI. Click the **P
 
 ##### opencode.json
 
+This is the starter configuration the plugin writes when you accept the global-config setup prompt. It lives at `~/.config/opencode/opencode.json` (or `opencode.jsonc` on the JSONC variant):
+
 &lt;pre&gt;&lt;code&gt;
 `
 {
@@ -338,19 +339,21 @@ You can attach files and images to provide more context to the AI. Click the **P
             &quot;~/.kube/**&quot;: &quot;deny&quot;,
             &quot;~/.docker/**&quot;: &quot;deny&quot;,
             &quot;~/.config/gcloud/**&quot;: &quot;deny&quot;,
+            &quot;*credentials*&quot;: &quot;deny&quot;,
+            &quot;*.env*&quot;: &quot;deny&quot;,
             &quot;*&quot;: &quot;ask&quot;
         },
         &quot;bash&quot;: {
-            &quot;rm *credentials*&quot;: &quot;deny&quot;,
-            &quot;rm *.env*&quot;: &quot;deny&quot;,
-            &quot;git commit *&quot;: &quot;ask&quot;,
-            &quot;git push *&quot;: &quot;ask&quot;,
-            &quot;rm *&quot;: &quot;ask&quot;
+            &quot;git add&quot;: &quot;ask&quot;,
+            &quot;git rm&quot;: &quot;ask&quot;,
+            &quot;git reset&quot;: &quot;ask&quot;,
+            &quot;git commit&quot;: &quot;ask&quot;,
+            &quot;git push&quot;: &quot;ask&quot;,
+            &quot;rm&quot;: &quot;ask&quot;
         },
         &quot;webfetch&quot;: &quot;allow&quot;,
-        &quot;doom_loop&quot;: &quot;ask&quot;,
-        &quot;todowrite&quot;: &quot;allow&quot;,
-        &quot;todoread&quot;: &quot;allow&quot;
+        &quot;websearch&quot;: &quot;allow&quot;,
+        &quot;doom_loop&quot;: &quot;ask&quot;
     }
 }
 `
@@ -360,7 +363,8 @@ You can attach files and images to provide more context to the AI. Click the **P
 &gt; [[Permission Requests]]
 &gt; [[Unix Config]] / [[Windows Config]]
 &gt; [[Manage OpenCode Config in NetBeans]]
-&gt; [[Offline/Private Coding (Local LLMs)]]</tw-passagedata><tw-passagedata pid="7" name="Chat Features" tags="" position="1037.5,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+&gt; [[Offline/Private Coding (Local LLMs)]]
+&gt; [[Global Configuration Setup]]</tw-passagedata><tw-passagedata pid="7" name="Chat Features" tags="" position="1037.5,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
   &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Chat Features&lt;/div&gt;
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
@@ -602,18 +606,22 @@ Before each turn, the plugin can back up your uncommitted changes by stashing th
 
 If the plugin can&#39;t find the `opencode` binary, the chat panel shows an install-help bubble instead of the normal input:
 
-*   A copyable, OS-specific install command (e.g. `curl -fsSL https://opencode.ai/install | bash`)
-*   A **View OpenCode Setup Guide** link
-*   A **Restart ACP Server** button (the toolbar restart button pulses to draw attention)
+*   A copyable, OS-specific install command (e.g. `curl -fsSL https://opencode.ai/install.sh | sh` on Linux, `brew install opencode` on macOS, `winget install SST.opencode` on Windows)
+*   A **View OpenCode Setup Guide** button
+*   A **Restart Server** button
+*   A note to open the Assistant settings via the gear icon above the message if OpenCode is already installed
 
-After installing OpenCode — and optionally setting the binary path under `Options &gt; Assistant` — click **Restart ACP Server** to connect.
+Clicking **Restart Server** re-checks for the binary. If it still isn&#39;t found, the bubble stays in place so you can try again; if it is found, the server starts and the bubble is replaced by the normal chat input.
+
+After installing OpenCode — and optionally setting the binary path under `Options &gt; Assistant` — click **Restart Server** to connect.
 
 
 &gt; [[macOS/Linux]] / [[Windows]]
 &gt; [[Post Install]]
 &gt; [[Restarting the server]]
 &gt; [[Options Panel Reference]]
-&gt; [[Troubleshooting]]</tw-passagedata><tw-passagedata pid="23" name="Update Notifications" tags="" position="987.5,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+&gt; [[Troubleshooting]]
+&gt; [[Global Configuration Setup]]</tw-passagedata><tw-passagedata pid="23" name="Update Notifications" tags="" position="987.5,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
   &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Update Notifications&lt;/div&gt;
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
@@ -1017,6 +1025,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Fetch a Coding Model]]
 &gt; [[Filtering Chat Messages]]
 &gt; [[Git Stashes as &quot;Code Drafts&quot; (using Stash Diff)]]
+&gt; [[Global Configuration Setup]]
 &gt; [[Home]]
 &gt; [[IDE Enhancements]]
 &gt; [[Input Area Keys]]
@@ -1076,7 +1085,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Model not appearing after upgrade to OpenCode v1.17.9&lt;/strong&gt;, upgrade plugin to &amp;gt;= 1.7.3&lt;/td&gt;&lt;td&gt;Re-select your model via &lt;code&gt;/models&lt;/code&gt;. The upgrade resets model selection due to the new &lt;code&gt;`thought_level`&lt;/code&gt; split.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Session config payloads restructured after upgrade&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Upgrade the plugin to &amp;gt;= 1.7.3 and OpenCode to &amp;gt;= 1.17.17. Re-select your model and review any custom preamble or session settings.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Messages disappear from view&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This is display-only — the session still has all messages. Click &lt;strong&gt;Show All Messages&lt;/strong&gt; to keep them visible, and use &lt;strong&gt;Reload&lt;/strong&gt; to re-fetch from the server.&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;LLM modified files unexpectedly&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Always keep your project under version control (git) before allowing file modifications. Configure OpenCode to &#39;ask&#39; for the edit permission, Use &lt;strong&gt;Allow Once/Always Allow/Reject&lt;/strong&gt; permission prompts to review changes.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;LLM modified files unexpectedly&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;It&#39;s a good idea to keep your project under version control (git), so you can easily revert any changes you don&#39;t want. You can also set OpenCode to &#39;ask&#39; before editing, and review changes with the &lt;strong&gt;Allow Once/Always Allow/Reject&lt;/strong&gt; permission prompts.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;High CPU usage or UI freezes&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Upgrade the plugin to &amp;gt;= 1.9.2, which resolves an infinite layout validation loop in the chat panel.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Panel goes blank during docking or resizing&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Close and reopen the docked panel from &lt;code&gt;Window &amp;gt; Assistant&lt;/code&gt;. NetBeans may not repaint correctly after a drag-dock or undock operation.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1112,9 +1121,9 @@ Verify that the configuration is valid by running
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.12.10.&lt;/i&gt;
+&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.13.1.&lt;/i&gt;
 
-This guide will help you setup [[BeanBot]], the Coding Assistant for NetBeans, this is a NetBeans plugin that provides an AI assistant panel powered by OpenCode, so you can chat with AI models directly inside the IDE. It automatically attaches active project and source file context to your messages, so the AI always understands what you&#39;re working on. It also features a built-in permission handler—allowing you to inspect code diffs before applying changes and explicitly approve file deletions or terminal commands.
+This guide will help you setup [[BeanBot]], a NetBeans plugin that provides an AI assistant panel powered by OpenCode, so you can chat with AI models directly inside the IDE. It automatically attaches active project and source file context to your messages, so the AI always understands what you&#39;re working on. It also features a built-in permission handler—allowing you to inspect code diffs before applying changes and explicitly approve file deletions or terminal commands.
 
 The plugin makes use of a new protocol called ACP (Agent Client Protocol) designed to let editors and IDEs like NetBeans interact with AI agents, we use OpenCode as an agent server, running it at IDE startup to send and receive messages from AI agents, this has the advantage that we don&#39;t have to add individual support for every AI provider like Anthropic, Gemini or OpenAI, OpenCode already supports multiple providers, and that makes it possible to switch between providers and models with ease.
 
@@ -1467,7 +1476,28 @@ Type in the filter field at the top to search by key or action name. Shortcuts t
 
 &gt; [[Keyboard Shortcuts]]
 &gt; [[Customising the Toolbar]]
-&gt; [[Input Area Keys]]</tw-passagedata></tw-storydata>
+&gt; [[Input Area Keys]]</tw-passagedata><tw-passagedata pid="71" name="Global Configuration Setup" tags="" position="1787.5,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+  &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Global Configuration Setup&lt;/div&gt;
+  &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
+&lt;/div&gt;
+
+The first time you start the assistant (and on server restarts), the plugin checks for a global OpenCode configuration file at `~/.config/opencode/opencode.json` (or `opencode.jsonc`). This file holds security settings like file-permission rules and which commands require your approval.
+
+If the file is missing, empty, or contains only the `$schema` reference, the chat panel shows a prompt offering to write a starter configuration:
+
+*   **Set up starter config** — writes the bundled starter file (see [[Configuration Template]]) to your config directory.
+*   **Not now** — defers the prompt for the current IDE session. It won&#39;t ask again until you restart the IDE.
+
+If an existing file can&#39;t be parsed, the prompt instead asks whether to **Replace** it (which overwrites the broken file) or **Keep** it unchanged. Files that already contain real configuration are never touched.
+
+When a config prompt was shown, a confirmation hint with an **OK** button appears before the server starts — click it to proceed. The hint also points you to `opencode auth login` and the free models at **Opencode Zen** (https://opencode.ai/docs/zen/) if you haven&#39;t added a model provider yet.
+
+
+&gt; [[Configuration Template]]
+&gt; [[Manage OpenCode Config in NetBeans]]
+&gt; [[OpenCode Not Installed]]
+&gt; [[Post Install]]
+&gt; [[Restarting the server]]</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
