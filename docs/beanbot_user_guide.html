@@ -217,6 +217,7 @@ This page describes every preference in the panel, organised into six sections. 
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Path to Opencode Binary&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Auto-detected&lt;/td&gt;&lt;td&gt;The full path to the OpenCode executable. If left blank, the plugin searches your &lt;code&gt;PATH&lt;/code&gt;. If OpenCode is not found, a muted hint shows &lt;em&gt;&quot;opencode not found on PATH&quot;&lt;/em&gt;. Use &lt;strong&gt;Browse...&lt;/strong&gt; to pick a binary. Invalid paths show a validation error (e.g. &lt;em&gt;File not found&lt;/em&gt;, &lt;em&gt;File is not executable&lt;/em&gt;).&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Process Arguments&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;acp&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Extra command-line arguments passed when launching the OpenCode server process.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Launch through WSL (Windows only)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Off&lt;/td&gt;&lt;td&gt;When enabled, all OpenCode invocations (the ACP server and token-usage stats) are wrapped through &lt;strong&gt;WSL&lt;/strong&gt; using &lt;code&gt;wsl.exe&lt;/code&gt;. The resolved Windows executable is automatically translated to its WSL mount path, so custom/WinGet/Choco-shim install locations resolve correctly. If OpenCode is installed as a native Linux binary inside WSL (no Windows executable found), it is invoked directly on the WSL PATH. Recommended when running OpenCode on Windows for best performance and bash compatibility.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Browse...&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;Opens a file chooser to select the OpenCode executable.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -248,7 +249,11 @@ This page describes every preference in the panel, organised into six sections. 
 &lt;table class=&quot;ug-table&quot;&gt;
 &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Preference&lt;/th&gt;&lt;th&gt;Default&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable context menu additions (Sort, Minify, Search Web)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Adds the &lt;strong&gt;Sort Lines&lt;/strong&gt;, &lt;strong&gt;Minify JSON&lt;/strong&gt;, and &lt;strong&gt;Search Web&lt;/strong&gt; items to the editor&#39;s right-click context menu.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable Sort Lines editor context menu actions&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Adds the &lt;strong&gt;Sort Lines Ascending&lt;/strong&gt; and &lt;strong&gt;Sort Lines Descending&lt;/strong&gt; items to the editor&#39;s right-click context menu.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable Minify JSON editor context menu action&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Adds the &lt;strong&gt;Minify JSON&lt;/strong&gt; item to the editor&#39;s right-click context menu for stripping formatting whitespace from JSON.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable Search Web editor context menu action&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Adds the &lt;strong&gt;Search Web&lt;/strong&gt; item to the editor&#39;s right-click context menu for searching the selected text (or the word under the cursor) on Google.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable Toggle Annotations editor context menu action&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Adds the &lt;strong&gt;Toggle Annotations&lt;/strong&gt; item to the editor&#39;s right-click context menu for toggling the versioning system&#39;s blame annotations.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable View File History editor context menu action&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Adds the &lt;strong&gt;View File History&lt;/strong&gt; item to the editor&#39;s right-click context menu for opening the versioning system&#39;s history view.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable Stash Diff toolbar button and action&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Enables the &lt;strong&gt;Stash Diff&lt;/strong&gt; toolbar button and the &lt;code&gt;Ctrl + Shift + L&lt;/code&gt; action for viewing git stash diffs.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable Jump to file dialog&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Enables the &lt;strong&gt;Jump to File&lt;/strong&gt; dialog (a shortcut, e.g. &lt;code&gt;Ctrl + Alt + J&lt;/code&gt;, is shown next to the label when one is available).&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Enable Mini Assistant&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;On&lt;/td&gt;&lt;td&gt;Decides where &lt;strong&gt;Send to Assistant&lt;/strong&gt; / &lt;strong&gt;Ask Assistant&lt;/strong&gt; actions open: the floating mini dialog (enabled) or the main sidebar (disabled).&lt;/td&gt;&lt;/tr&gt;
@@ -290,7 +295,7 @@ This page describes every preference in the panel, organised into six sections. 
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-You can attach files and images to provide more context to the AI. Click the **Paperclip icon** in the input area to open the attachment menu. The plugin also supports dragging and dropping files directly into the chat, as well as pasting screenshots straight from your clipboard (provided you are using a vision-capable model).
+You can attach files and images to provide more context to the AI. Click the **Paperclip icon** in the input area to open the attachment menu. The paperclip icon displays a numeric badge showing how many files are currently attached, so attachments are visible at a glance. The plugin also supports dragging and dropping files directly into the chat, as well as pasting screenshots straight from your clipboard (provided you are using a vision-capable model).
 
 
 &gt; [[Swing Mockups via Matisse]]
@@ -754,6 +759,9 @@ The plugin integrates deeply with NetBeans beyond just the chat panel to boost y
     *   **Search Web:** Right-click selected text (or the word under the cursor) in the editor and click **Search Web** to quickly search Google using your NetBeans-configured web browser.
     *   **Sort Lines Ascending / Descending:** Select multiple lines, right-click, and choose this option to alphabetically sort them.
     *   **Minify JSON:** Right-click any JSON content to quickly strip out all formatting whitespace.
+    *   **Toggle Annotations:** Right-click in the editor and choose **Toggle Annotations** to toggle the versioning system&#39;s blame annotations for the file.
+    *   **View File History:** Right-click in the editor and choose **View File History** to open the versioning system&#39;s history view for the file.
+    *   Each of these context menu items can be enabled or disabled independently under `Tools &gt; Options &gt; Assistant`.
 *   **Jump to File Dialog:**
     *   A modeless file search dialog triggered via `Ctrl + Alt + J` (or `Cmd + Option + J` on Mac) that lets you search all open projects by filename prefix, path substring, or glob patterns.
     *   Supports quick keyboard navigation with arrow keys and `Enter` to open.
@@ -925,6 +933,8 @@ Hitting `Tab` when in the input text-area or pressing the small gear icon, will 
 The plugin adds a tab to the NetBeans Options, if you open the Options Window, you&#39;ll see an additional Assistant tab at the end. In most cases, you can go with the defaults, but if you have a non-standard OpenCode installation, you can specify the full path to the OpenCode binary.
 
 The preamble is an additional user prompt that&#39;s sent to the server when creating a new chat session. The default text contains some directives around code quality, planning and task management, you can customise this with your own instructions.
+
+When you upgrade the NetBeans IDE to a new major version, the plugin automatically migrates your saved preferences and cached session data from the previous NetBeans user directory, so you do not need to reconfigure the assistant after an upgrade.
 
 &gt; [[Starting a Session]]
 &gt; [[Options Panel Reference]]
@@ -1121,7 +1131,7 @@ Verify that the configuration is valid by running
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.13.1.&lt;/i&gt;
+&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.14.0.&lt;/i&gt;
 
 This guide will help you setup [[BeanBot]], a NetBeans plugin that provides an AI assistant panel powered by OpenCode, so you can chat with AI models directly inside the IDE. It automatically attaches active project and source file context to your messages, so the AI always understands what you&#39;re working on. It also features a built-in permission handler—allowing you to inspect code diffs before applying changes and explicitly approve file deletions or terminal commands.
 
@@ -1141,6 +1151,8 @@ To understand what the AI already knows about your code, read [[Automatic Contex
 
 On Windows, it is better to run OpenCode inside **WSL (Windows Subsystem for Linux)** for the best performance and compatibility. This allows it to execute regular bash commands. You can also use a package manager like chocolatey or scoop if you have them.
 
+To launch OpenCode through WSL from the plugin, enable **Launch through WSL** under `Tools &gt; Options &gt; Assistant &gt; Assistant Service`. The plugin detects `wsl.exe` on your PATH and wraps all OpenCode invocations through WSL automatically, translating your Windows executable path to its WSL mount location.
+
 ##### Using the install script from WSL
 &lt;pre&gt;&lt;code&gt;`curl -fsSL https://opencode.ai/install | bash`&lt;/code&gt;&lt;/pre&gt;
 
@@ -1150,7 +1162,8 @@ On Windows, it is better to run OpenCode inside **WSL (Windows Subsystem for Lin
 ##### Scoop
 &lt;pre&gt;&lt;code&gt;`scoop install opencode`&lt;/code&gt;&lt;/pre&gt;
 
-&gt; [[Windows Config]]</tw-passagedata><tw-passagedata pid="54" name="Windows Config" tags="" position="925,850" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+&gt; [[Windows Config]]
+&gt; [[Options Panel Reference]]</tw-passagedata><tw-passagedata pid="54" name="Windows Config" tags="" position="925,850" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
   &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Windows Config&lt;/div&gt;
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
