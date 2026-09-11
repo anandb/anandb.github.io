@@ -1,6 +1,6 @@
 {
-  "latest_version": "1.19.8",
-  "release_date": "2026-09-10",
-  "download_url": "https://plugins.netbeans.apache.org/catalogue/download/857/beanbot-1.19.8.nbm",
-  "change_log": "https://github.com/anandb/nb-complete/releases/tag/v1.19.8"
+  "latest_version": "1.19.9",
+  "release_date": "2026-09-11",
+  "download_url": "https://repo1.maven.org/maven2/io/github/anandb/beanbot/1.19.9/beanbot-1.19.9.nbm",
+  "change_log": "https://github.com/anandb/nb-complete/releases/tag/v1.19.9"
 }
