@@ -226,7 +226,7 @@ This page describes every preference in the panel, organised into six sections. 
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Path to Agent Server Binary&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Empty&lt;/td&gt;&lt;td&gt;The full path to the harness executable. If left blank, nothing runs until you pick a harness through the [[Choose Your Coding Harness]] screen. Use &lt;strong&gt;Browse...&lt;/strong&gt; to pick a binary. Invalid paths show a validation error (e.g. &lt;em&gt;File not found&lt;/em&gt;, &lt;em&gt;File is not executable&lt;/em&gt;).&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Process Arguments&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;acp&lt;/code&gt; (harness-specific)&lt;/td&gt;&lt;td&gt;Extra command-line arguments passed when launching the server process. The chooser fills this from the harness catalog — most agents use &lt;code&gt;acp&lt;/code&gt;; [[Gemini Agent]] uses &lt;code&gt;--acp --model gemini-3.5-flash&lt;/code&gt;. Change &lt;code&gt;--model&lt;/code&gt; here if you want a different Gemini model. When Gemini is selected, a reminder appears under this field.&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Launch through WSL (Windows only)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Off&lt;/td&gt;&lt;td&gt;When enabled, all Harness invocations (running the daemon and token-usage stats for supported agents) are wrapped through &lt;strong&gt;WSL&lt;/strong&gt; using &lt;code&gt;wsl.exe&lt;/code&gt;. The resolved Windows executable is automatically translated to its WSL mount path, so custom/WinGet/Choco-shim install locations resolve correctly. If the Harness is installed as a native Linux binary inside WSL (no Windows executable found), it is invoked directly on the WSL PATH. Recommended when running on Windows for best performance and bash compatibility.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Launch through WSL (Windows only)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Off&lt;/td&gt;&lt;td&gt;When enabled, all Harness invocations (running the daemon and token-usage stats for supported agents) are wrapped through &lt;strong&gt;WSL&lt;/strong&gt; using &lt;code&gt;wsl.exe&lt;/code&gt;. The resolved Windows executable is automatically translated to its WSL mount path, so custom/WinGet/Choco-shim install locations resolve correctly. If the Harness is installed as a native Linux binary inside WSL (no Windows executable found), it is invoked directly on the WSL PATH.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Browse...&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;Opens a file chooser to select the executable.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1144,7 +1144,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.20.2.&lt;/i&gt;
+&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.20.3.&lt;/i&gt;
 
 BeanBot is a NetBeans plugin that provides an AI assistant panel that lets you chat with AI models directly inside the IDE to generate, refactor and understand code, it automatically attaches active project and source file context to your messages. It also features a built-in permission handler — allowing you to inspect code diffs before applying changes and explicitly approve file deletions or terminal commands. Originally based on OpenCode, it now supports OpenCode, Pi, Goose, Cursor, Claude, Hermes, Gemini, and Oh My Pi, with more in active development.
 
@@ -1812,7 +1812,7 @@ Or via package managers:
 - **Homebrew**: &lt;pre&gt;&lt;code&gt;`brew install sst/tap/opencode`&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div style=&quot;font-weight: bold; margin-top: 0.8em; margin-bottom: 0.2em;&quot;&gt;Windows&lt;/div&gt;
-On Windows, it is better to run OpenCode inside **WSL (Windows Subsystem for Linux)** for the best performance and compatibility. This allows it to execute regular bash commands.
+On Windows, you can run OpenCode inside **WSL (Windows Subsystem for Linux)**, or use a package manager.
 
 To launch OpenCode through WSL from the plugin, enable **Launch through WSL** under `Tools &gt; Options &gt; Assistant &gt; Assistant Service`. The plugin detects `wsl.exe` on your PATH and wraps all OpenCode invocations through WSL automatically, translating your Windows executable path to its WSL mount location.
 
