@@ -276,7 +276,7 @@ This page describes every preference in the panel, organised into six sections. 
 &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Preference&lt;/th&gt;&lt;th&gt;Default&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Custom User Icon (PNG)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;(empty)&lt;/td&gt;&lt;td&gt;Path to a PNG used as your avatar in chat. Click &lt;strong&gt;Browse...&lt;/strong&gt; to pick one, or right-click the preview to clear it. Changing it reloads the session.&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Toolbar Icon Size (requires restart)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;24&lt;/td&gt;&lt;td&gt;Icon size for the assistant toolbar: 16, 24, 28, 32, 36, 40, or 48. Requires an IDE restart to apply.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Toolbar Icon Size (requires restart)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;24&lt;/td&gt;&lt;td&gt;Icon size for the assistant toolbar: 16, 24, 28, 32, or 48. Requires an IDE restart to apply.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Chat Font Size&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Inherited&lt;/td&gt;&lt;td&gt;Font size for chat text: Inherited (uses the theme), or 10, 11, 12, 13, 14, 16.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -821,7 +821,7 @@ Navigate and control the assistant efficiently using keyboard shortcuts:
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;Ctrl + Shift + L&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Open the Stash Diff viewer&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;/&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Open the slash command autocomplete popup&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;Tab&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Accept the highlighted autocomplete command and insert it into the input area&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;code&gt;Escape&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Close the options panel&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;code&gt;Escape&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Close options panel and refocus input&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -1045,6 +1045,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Auto-Backup on Turn Start]]
 &gt; [[Auto-Reconnect]]
 &gt; [[Automatic Context Capture]]
+&gt; [[BeanBot]]
 &gt; [[Chat Features]]
 &gt; [[Check token usage]]
 &gt; [[Choose Your Coding Harness]]
@@ -1056,6 +1057,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Creating a Task Repository]]
 &gt; [[Cursor Agent]]
 &gt; [[Customising the Toolbar]]
+&gt; [[Differences from the main panel]]
 &gt; [[Expand/Collapse All]]
 &gt; [[Experiments]]
 &gt; [[Exporting a conversation]]
@@ -1073,6 +1075,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Jump to File]]
 &gt; [[Keyboard Shortcuts]]
 &gt; [[Keyboard Shortcuts Dialog]]
+&gt; [[Keyboard shortcuts inside the Mini Assistant]]
 &gt; [[Known Issues]]
 &gt; [[Local Data Analysis in Java]]
 &gt; [[Manage OpenCode Config in NetBeans]]
@@ -1080,15 +1083,17 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[MCP Tools]]
 &gt; [[Message History]]
 &gt; [[Mini Assistant]]
+&gt; [[Mini Assistant Permission Requests]]
 &gt; [[New Session Confirm Bar]]
 &gt; [[Offline/Private Coding (Local LLMs)]]
 &gt; [[Oh My Pi Agent]]
 &gt; [[OpenClaw Agent]]
 &gt; [[OpenCode]]
+&gt; [[Opening the Mini Assistant]]
 &gt; [[Options Panel Reference]]
 &gt; [[Permission Requests]]
-&gt; [[Pick Your Harness]]
 &gt; [[PI Agent]]
+&gt; [[Pick Your Harness]]
 &gt; [[Picking an Agent, Model and Thinking Level]]
 &gt; [[Pinned Messages]]
 &gt; [[Post Install]]
@@ -1111,6 +1116,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Todo.txt Format]]
 &gt; [[Troubleshooting]]
 &gt; [[Update Notifications]]
+&gt; [[Using the Mini Assistant]]
 &gt; [[Using the Tasks Dashboard]]
 &gt; [[Welcome Screen]]</tw-passagedata><tw-passagedata pid="49" name="Troubleshooting" tags="" position="2537.5,1100" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
   &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Troubleshooting&lt;/div&gt;
@@ -1126,7 +1132,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Sidebar doesn&#39;t open after install/upgrade&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;The plugin auto-opens the sidebar on version change. If it doesn&#39;t appear, open it from &lt;code&gt;Window &amp;gt; Assistant&lt;/code&gt;.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Image paste doesn&#39;t work with Wayland on Linux&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Install the &lt;code&gt;wl-clipboard&lt;/code&gt; package (Wayland) or check your clipboard manager.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Image paste broken after OpenCode upgrade&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Upgrade to OpenCode &amp;gt;= 1.17.17 to resolve the breakage introduced in v1.17.13.&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Model not appearing after upgrade to OpenCode v1.17.9&lt;/strong&gt;, upgrade plugin to &amp;gt;= 1.7.3&lt;/td&gt;&lt;td&gt;Re-select your model via &lt;code&gt;/models&lt;/code&gt;. The upgrade resets model selection due to the new &lt;code&gt;thought_level&lt;/code&gt; split.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Model not appearing after upgrade to OpenCode v1.17.9&lt;/strong&gt;, upgrade plugin to &amp;gt;= 1.7.3&lt;/td&gt;&lt;td&gt;Re-select your model via &lt;code&gt;/models&lt;/code&gt;. The upgrade resets model selection due to the new &lt;code&gt;thought&amp;#95;level&lt;/code&gt; split.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Session config payloads restructured after upgrade&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Upgrade the plugin to &amp;gt;= 1.7.3 and OpenCode to &amp;gt;= 1.17.17. Re-select your model and review any custom preamble or session settings.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Messages disappear from view&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This is display-only — the session still has all messages. Click &lt;strong&gt;Show All Messages&lt;/strong&gt; to keep them visible, and use &lt;strong&gt;Reload&lt;/strong&gt; to re-fetch from the server.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;LLM modified files unexpectedly&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;It&#39;s a good idea to keep your project under version control (git), so you can easily revert any changes you don&#39;t want. You can also set OpenCode to &#39;ask&#39; before editing, and review changes with the &lt;strong&gt;Allow Once/Always Allow/Reject&lt;/strong&gt; permission prompts.&lt;/td&gt;&lt;/tr&gt;
@@ -1360,6 +1366,7 @@ The plugin runs a small built-in MCP (Model Context Protocol) server inside the 
 &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Tool&lt;/th&gt;&lt;th&gt;What it does&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;get&amp;#95;tabs&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Lists the file paths currently open in editor tabs (only files inside your open projects).&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;code&gt;get&amp;#95;current&amp;#95;file&amp;#95;context&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Returns the active editor&#39;s file path, cursor position, and selection — the same context that is automatically attached to each message.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;open&amp;#95;pos&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Opens a file at a given line number in the editor and focuses it. Useful when the AI says &quot;Show me where this happens in the code&quot;.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;list&amp;#95;projects&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Lists the absolute paths of all open NetBeans projects.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;code&gt;rename&amp;#95;session&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Gives the current (or a specific) session a custom title, just like the rename button.&lt;/td&gt;&lt;/tr&gt;
@@ -1399,7 +1406,7 @@ Every message you send automatically carries supplementary context about your cu
 
 Your active project is attached as well, so the AI knows the boundaries of your project. This context is reference-only metadata — your typed message is always the primary input.
 
-If no real file is open (for example an empty editor or a temporary document), no phantom path like &lt;code&gt;/tmp/xxx&lt;/code&gt; is sent, so the AI is never confused by made-up file locations. This is what powers the MCP &lt;code&gt;open&amp;#95;pos&lt;/code&gt; and &lt;code&gt;get&amp;#95;tabs&lt;/code&gt; tools, which let the AI jump you to the exact file and line it is talking about.
+If no real file is open (for example an empty editor or a temporary document), no phantom path like &lt;code&gt;/tmp/xxx&lt;/code&gt; is sent, so the AI is never confused by made-up file locations. The MCP &lt;code&gt;open&amp;#95;pos&lt;/code&gt; and &lt;code&gt;get&amp;#95;tabs&lt;/code&gt; tools let the AI jump you to the exact file and line it is talking about.
 
 
 &gt; [[Home]]
@@ -1445,7 +1452,7 @@ If the server process dies or its connection breaks mid-conversation, the plugin
 2. a notification appears: **Harness Disconnected — Attempting to reconnect...**
 3. the server is restarted automatically with a short backoff (about 3, 6, then 9 seconds)
 
-The plugin gives up after **3 failed restarts within 5 minutes** and shows a &quot;server crashed&quot; status message. In that case check your installation, then click **Restart Server** to try again. Your sessions are not lost during a reconnect — they are stored on the server and simply reloaded.
+The plugin gives up after **3 failed restarts within 5 minutes** and shows a &quot;server crashed&quot; status message. In that case check your installation, then click **Restart Harness** to try again. Your sessions are not lost during a reconnect — they are stored on the server and simply reloaded.
 
 
 &gt; [[Restarting the server]]
@@ -1737,7 +1744,7 @@ Queueing is used when a second &lt;code&gt;session/prompt&lt;/code&gt; would dro
 
 To use Pi with BeanBot, install the harness, then the ACP adapter:
 
-### Install
+#### Install
 
 Install the harness first (Node.js 22+):
 
@@ -1797,7 +1804,7 @@ What works with Goose in BeanBot:
 After installing, enable ACP support:
 
 &lt;pre&gt;&lt;code&gt;cd ~/.hermes/hermes-agent
-uv pip install -e &#39;.[acp]&#39;&lt;/code&gt;&lt;/pre&gt;
+uv pip install -e &#39;.&amp;#91;acp&amp;#93;&#39;&lt;/code&gt;&lt;/pre&gt;
 
 Requires Python 3.10+.
 
@@ -1844,7 +1851,7 @@ After installing, create the configuration file:
 
 &lt;div style=&quot;font-weight: bold; margin-top: 0.8em; margin-bottom: 0.2em;&quot;&gt;macOS / Linux&lt;/div&gt;
 The config directory is at `$HOME/.config/opencode/`.
-&lt;pre&gt;&lt;code&gt;mkdir -p $HOME/.config/opencode&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;mkdir -p &amp;#36;HOME/.config/opencode&lt;/code&gt;&lt;/pre&gt;
 Create `$HOME/.config/opencode/opencode.json` with the starter configuration:
 
 &lt;div style=&quot;font-weight: bold; margin-top: 0.8em; margin-bottom: 0.2em;&quot;&gt;Windows&lt;/div&gt;
@@ -1922,14 +1929,14 @@ The executable you configure in BeanBot is &lt;code&gt;claude-agent-acp&lt;/code
 
 &lt;i style=&quot;opacity: 0.7;&quot;&gt;Experimental — BeanBot&#39;s support for this harness is under active development and may change without notice.&lt;/i&gt;
 
-### Install
+#### Install
 
 - **macOS / Linux**: `curl https://cursor.com/install -fsSL | bash`
 - **Windows (PowerShell)**: `irm &#39;https://cursor.com/install?win32=true&#39; | iex`
 
 Register once with the CLI (`agent login`, or set `CURSOR_API_KEY`) before connecting.
 
-### About
+#### About
 
 &lt;a href=&quot;https://cursor.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Cursor&lt;/a&gt; is an AI-powered code editor with a built-in coding agent. Its CLI exposes an ACP entry point that BeanBot can drive.
 
@@ -1949,7 +1956,7 @@ Cursor is **interleaved**: you can send another message while a turn is still ru
 
 &lt;i style=&quot;opacity: 0.7;&quot;&gt;Experimental — BeanBot&#39;s support for this harness is under active development and may change without notice.&lt;/i&gt;
 
-### About
+#### About
 
 &lt;a href=&quot;https://geminicli.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Gemini CLI&lt;/a&gt; is an AI agent command-line tool. It natively supports communication with external tools using the &lt;a href=&quot;https://agentclientprotocol.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Agent Client Protocol&lt;/a&gt;.
 
@@ -1961,13 +1968,13 @@ Gemini Agent in BeanBot supports:
 - **Client-Side Session Tracking**: Gemini CLI does not publish a session list, so BeanBot keeps session IDs on this machine. Sessions whose project is closed are hidden from the dropdown until that project is open again; IDs are kept so the chat can return. [[Archiving Sessions]] is local only.
 - **Interleaved prompts**: a new message is sent immediately (it does not wait in the [[Queuing Messages]] toolbar queue). See [[Cursor Agent]] for the same style.
 
-### Model Selection
+#### Model Selection
 
-Since Gemini CLI does not support changing the model dynamically via &lt;code&gt;session/set_config_option&lt;/code&gt; once the session has started, you can configure your preferred model in one of three ways:
+Since Gemini CLI does not support changing the model dynamically via &lt;code&gt;session/set&amp;#95;config&amp;#95;option&lt;/code&gt; once the session has started, you can configure your preferred model in one of three ways:
 
 1. **Launch Arguments**: In the plugin options (&lt;code&gt;Tools &gt; Options &gt; Assistant&lt;/code&gt;, Process Arguments), set e.g. &lt;code&gt;--acp --model gemini-2.5-pro&lt;/code&gt;.
 2. **Settings File**: Define the default model in your global configuration file at &lt;code&gt;~/.gemini/settings.json&lt;/code&gt;.
-3. **Environment Variable**: Set the &lt;code&gt;GEMINI_MODEL&lt;/code&gt; environment variable before launching NetBeans.
+3. **Environment Variable**: Set the &lt;code&gt;GEMINI&amp;#95;MODEL&lt;/code&gt; environment variable before launching NetBeans.
 
 &gt; [[Post Install]]
 &gt; [[Starting a Session]]
@@ -1984,7 +1991,7 @@ Since Gemini CLI does not support changing the model dynamically via &lt;code&gt
 
 &lt;i style=&quot;opacity: 0.7;&quot;&gt;Experimental — BeanBot&#39;s support for this harness is under active development and may change without notice.&lt;/i&gt;
 
-### Install
+#### Install
 
 - **macOS / Linux**: `curl -fsSL https://omp.sh/install | sh`
 - **Windows (PowerShell)**: `irm https://omp.sh/install.ps1 | iex`
@@ -1992,7 +1999,7 @@ Since Gemini CLI does not support changing the model dynamically via &lt;code&gt
 
 Then run &lt;code&gt;omp&lt;/code&gt; in a terminal and use &lt;code&gt;/login&lt;/code&gt; to authenticate a model provider. ACP docs: &lt;a href=&quot;https://omp.sh/docs/acp&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;omp.sh/docs/acp&lt;/a&gt;.
 
-### About
+#### About
 
 **Oh My Pi (omp)** is an open-source, terminal-based AI coding agent forked from the Pi agent, designed to be a &quot;batteries-included&quot; version integrating full IDE-like capabilities into a terminal harness. Source: &lt;a href=&quot;https://github.com/can1357/oh-my-pi&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;can1357/oh-my-pi&lt;/a&gt;.
 
@@ -2017,14 +2024,14 @@ Oh My Pi Agent in BeanBot supports:
 
 &lt;i style=&quot;opacity: 0.7;&quot;&gt;Experimental — BeanBot&#39;s support for this harness is under active development and may change without notice.&lt;/i&gt;
 
-### Install
+#### Install
 
 - **macOS / Linux**: `curl -fsSL https://openclaw.ai/install.sh | bash`
 - **Windows (PowerShell)**: `iwr -useb https://openclaw.ai/install.ps1 | iex`
 
 Requires **Node 24.16+ or 26.1+** — Node 26 is recommended, and the installer provisions Node when it is missing. ACP docs: &lt;a href=&quot;https://docs.openclaw.ai/cli/acp&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;docs.openclaw.ai/cli/acp&lt;/a&gt;.
 
-### About
+#### About
 
 &lt;a href=&quot;https://docs.openclaw.ai&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;OpenClaw&lt;/a&gt; is a personal AI assistant gateway. Running &lt;code&gt;openclaw acp&lt;/code&gt; makes it act as an **ACP server**: the bridge speaks ACP over stdio, forwards each prompt to an OpenClaw **Gateway** over WebSocket, and maps each ACP session onto a Gateway session key. A running Gateway (local or remote) is required — the bridge routes work into it rather than hosting the agent itself.
 
@@ -2037,7 +2044,7 @@ OpenClaw Agent in BeanBot supports:
 - **[[Queuing Messages]]**: Queues and batches user prompts at turn end.
 - **Client-Side Session Tracking**: OpenClaw&#39;s ACP bridge accepts session-list requests but returns an empty list, so BeanBot keeps session IDs on this machine instead. Sessions whose project is closed are hidden from the dropdown until that project is open again; IDs are kept so the chat can return. [[Archiving Sessions]] is local only.
 
-### Limitations
+#### Limitations
 
 OpenClaw runs as a **bridge** rather than a full ACP-native runtime, so a few ACP surfaces are unavailable:
 
