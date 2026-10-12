@@ -144,45 +144,145 @@ window.toggleTheme = function() {
   })();
 })();
 
-// Rename the sidebar Undo/Redo icons to Back/Forward.
-// The click handler dispatches on the `alt` attribute, so keep it unchanged
-// and only relabel the visible text and tooltip. Harlowe recreates the
-// sidebar on every passage change, so watch for newly inserted icons.
-(function renameSidebarIcons() {
+// Map the sidebar Undo/Redo icons to the browser's Back/Forward buttons.
+// Harlowe exposes no JS API for its turn history and rebuilds the sidebar on
+// every passage, so the icon clicks are intercepted in the capture phase
+// (before Harlowe's own handler) and routed to browser history instead: one
+// entry is pushed per passage, and a popstate from the browser's own
+// Back/Forward is replayed into the story by clicking the icons Harlowe made.
+(function browserBackForward() {
+  var NAV_ICON = 'tw-sidebar tw-icon';
+  var live = false;       // false when the browser will not keep our entries
+  var turn = 0;           // the turn the story is showing
+  var renders = 0;        // passages rendered so far, to detect a replayed move
+  var replaying = false;  // true while a popstate is being replayed
+  var replayTarget = 0;   // the turn the browser has landed on
+  var guard = 0;          // caps a replay that cannot make progress
+  var skipRender = false; // true when the story's first passage still has to render
+
+  function call(fn) {
+    try { return fn(); } catch (e) { return undefined; }
+  }
+
+  function iconFor(dir) {
+    return document.querySelector(NAV_ICON + (dir < 0 ? '.undo' : '.redo'));
+  }
+
+  // Send an icon click to the browser instead of to Harlowe's turn history.
+  function intercept(event) {
+    if (!live || !event.isTrusted || event.button !== 0) { return; }
+    var target = event.target;
+    var icon = target && target.closest ? target.closest(NAV_ICON) : null;
+    if (!icon) { return; }
+    var back = icon.classList.contains('undo');
+    if (!back && !icon.classList.contains('redo')) { return; }
+    event.preventDefault();
+    event.stopPropagation();
+    call(function() { if (back) { history.back(); } else { history.forward(); } });
+  }
+
+  // Wait for a replayed icon click to render its passage. A move with nothing
+  // left to undo or redo renders nothing and reports failure, so a stale entry
+  // cannot spin the replay forever.
+  function whenRendered(seen, done, failed) {
+    var waited = 0;
+    (function poll() {
+      if (renders !== seen) { done(); return; }
+      if ((waited += 25) >= 400) { failed(); return; }
+      setTimeout(poll, 25);
+    })();
+  }
+
+  function finishReplay() {
+    turn = replayTarget;
+    guard = 0;
+    replaying = false;
+  }
+
+  // Walk the story to the turn the browser has landed on.
+  function step() {
+    if (turn === replayTarget || guard++ > 64) { finishReplay(); return; }
+    var dir = turn > replayTarget ? -1 : 1;
+    var icon = iconFor(dir);
+    var seen = renders;
+    if (!icon) { finishReplay(); return; }
+    icon.click();
+    whenRendered(seen, function() { turn += dir; step(); }, finishReplay);
+  }
+
+  function replay(index) {
+    replayTarget = index;
+    if (replaying) { return; } // the running replay picks the new target up
+    replaying = true;
+    guard = 0;
+    step();
+  }
+
+  function onPop(event) {
+    if (!live) { return; }
+    var state = event.state;
+    var index = state && typeof state.beanbotTurn === 'number' ? state.beanbotTurn : null;
+    // A null state is the page that opened the guide: let the browser go there.
+    if (index === null || index === turn) { return; }
+    replay(index);
+  }
+
+  // A rendered passage is either a new turn (push an entry) or the result of a
+  // replayed move, which is already in the browser's history.
+  function onRender() {
+    renders++;
+    if (skipRender) { skipRender = false; return; }
+    if (replaying || !live) { return; }
+    turn++;
+    call(function() { history.pushState({ beanbotTurn: turn }, '', location.href); });
+  }
+
   function relabel(icon) {
-    var alt = icon.getAttribute('alt');
-    if (alt === 'Undo') {
+    if (!live) { return; }
+    if (icon.classList.contains('undo')) {
       icon.setAttribute('title', 'Back');
-      icon.setAttribute('data-label', 'Back');
-    } else if (alt === 'Redo') {
+    } else if (icon.classList.contains('redo')) {
       icon.setAttribute('title', 'Forward');
-      icon.setAttribute('data-label', 'Forward');
     }
   }
-  function scan() {
-    var icons = document.querySelectorAll('tw-sidebar tw-icon[alt]');
-    for (var i = 0; i < icons.length; i++) { relabel(icons[i]); }
-  }
-  function start() {
-    scan();
-    var target = document.querySelector('tw-story') || document.documentElement;
-    var observer = new MutationObserver(function(mutations) {
+
+  function watch(story) {
+    new MutationObserver(function(mutations) {
+      var rendered = false;
       for (var i = 0; i < mutations.length; i++) {
         var added = mutations[i].addedNodes;
         for (var j = 0; j < added.length; j++) {
-          if (added[j].nodeType === 1 && added[j].matches && added[j].matches('tw-icon[alt]')) {
-            relabel(added[j]);
-          }
+          var node = added[j];
+          if (node.nodeType !== 1) { continue; }
+          if (node.matches && node.matches('tw-passage')) { rendered = true; }
+          if (node.matches && node.matches('tw-icon')) { relabel(node); }
+          var icons = node.querySelectorAll ? node.querySelectorAll('tw-icon') : [];
+          for (var k = 0; k < icons.length; k++) { relabel(icons[k]); }
         }
       }
-    });
-    observer.observe(target, { childList: true, subtree: true });
+      if (rendered) { onRender(); }
+    }).observe(story, { childList: true, subtree: true });
   }
+
+  // The entry the guide opens on is the baseline for the first passage, so the
+  // browser's Back still leaves the guide from there.
+  live = call(function() {
+    history.replaceState({ beanbotTurn: 0 }, '', location.href);
+    return true;
+  }) === true;
+
+  document.addEventListener('click', intercept, true);
+  window.addEventListener('popstate', onPop);
+
   // tw-story may not exist yet at boot; retry until it does.
   var tries = 0;
   (function retry() {
-    if (document.querySelector('tw-story')) {
-      start();
+    var story = document.querySelector('tw-story');
+    if (story) {
+      skipRender = !document.querySelector('tw-passage');
+      var icons = document.querySelectorAll(NAV_ICON);
+      for (var i = 0; i < icons.length; i++) { relabel(icons[i]); }
+      watch(story);
     } else if (tries++ < 50) {
       setTimeout(retry, 50);
     }
@@ -225,7 +325,7 @@ This page describes every preference in the panel, organised into six sections. 
 &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Preference&lt;/th&gt;&lt;th&gt;Default&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Path to Agent Server Binary&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Empty&lt;/td&gt;&lt;td&gt;The full path to the harness executable. If left blank, nothing runs until you pick a harness through the [[Choose Your Coding Harness]] screen. Use &lt;strong&gt;Browse...&lt;/strong&gt; to pick a binary. Invalid paths show a validation error (e.g. &lt;em&gt;File not found&lt;/em&gt;, &lt;em&gt;File is not executable&lt;/em&gt;).&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Process Arguments&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;acp&lt;/code&gt; (harness-specific)&lt;/td&gt;&lt;td&gt;Extra command-line arguments passed when launching the server process. The chooser fills this from the harness catalog — most agents use &lt;code&gt;acp&lt;/code&gt;; [[Gemini Agent]] uses &lt;code&gt;--acp --model gemini-3.5-flash&lt;/code&gt;. Change &lt;code&gt;--model&lt;/code&gt; here if you want a different Gemini model. When Gemini is selected, a reminder appears under this field.&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Process Arguments&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;acp&lt;/code&gt; (harness-specific)&lt;/td&gt;&lt;td&gt;Extra command-line arguments passed when launching the server process. The chooser fills this from the harness catalog — most agents use &lt;code&gt;acp&lt;/code&gt;; [[Gemini Agent]] uses &lt;code&gt;--acp --model gemini-3.8-flash&lt;/code&gt;. Change &lt;code&gt;--model&lt;/code&gt; here if you want a different Gemini model. When Gemini is selected, a reminder appears under this field.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Launch through WSL (Windows only)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Off&lt;/td&gt;&lt;td&gt;When enabled, all Harness invocations (running the daemon and token-usage stats for supported agents) are wrapped through &lt;strong&gt;WSL&lt;/strong&gt; using &lt;code&gt;wsl.exe&lt;/code&gt;. The resolved Windows executable is automatically translated to its WSL mount path, so custom/WinGet/Choco-shim install locations resolve correctly. If the Harness is installed as a native Linux binary inside WSL (no Windows executable found), it is invoked directly on the WSL PATH.&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Browse...&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;Opens a file chooser to select the executable.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
@@ -635,7 +735,7 @@ If you see too many stashes piling up, you can ask the plugin to cleanup by send
 The plugin works with several coding harnesses that speak the Agent Client Protocol: **Oh My Pi**, **OpenCode**, **OpenClaw**, **Pi**, **Goose**, **Cursor**, **Claude**, **Hermes**, **Gemini**, and **Devin**. When no harness binary is configured, the chat panel shows the **Coding Harness Configuration** screen instead of the normal input — it groups every supported harness by status so you can see at a glance what is ready to use.
 
 *   The **Active Harness** card at the top shows the currently configured harness with its binary path and a disabled **Active** badge, plus a reminder that manual CLI authentication and an IDE restart may be required. The active harness is not repeated in the lists below.
-*   **Installed Harnesses** lists every detected harness with a **Use** button — clicking **Use** remembers that harness (and its launch arguments) and starts the server. Each row has a disclosure triangle (`&gt;`) that reveals the detected binary path, keeping the list uncluttered. Gemini&#39;s default arguments include &lt;code&gt;--model gemini-3.5-flash&lt;/code&gt;; change &lt;code&gt;--model&lt;/code&gt; under Process Arguments in Options if you want a different model.
+*   **Installed Harnesses** lists every detected harness with a **Use** button — clicking **Use** remembers that harness (and its launch arguments) and starts the server. Each row has a disclosure triangle (`&gt;`) that reveals the detected binary path, keeping the list uncluttered. Gemini&#39;s default arguments include &lt;code&gt;--model gemini-3.8-flash&lt;/code&gt;; change &lt;code&gt;--model&lt;/code&gt; under Process Arguments in Options if you want a different model.
 *   **Available for Installation** groups the harnesses not found on your system, each with a **Get** button — clicking it reveals the OS-specific install command for that harness. Click the command to copy it to the clipboard, install the harness in a terminal, then use **Start Server** (or the **Use** button after re-detection). Each install panel also has a **Documentation** button and any prerequisites the harness needs (for example, Node.js for the Claude adapter).
 *   A collapsible **Note** at the bottom reminds you that after selecting a new harness you must complete authentication in its CLI/TUI and restart your IDE.
 *   The **Manual Configuration** button (gear icon) opens the Assistant settings where you can browse for any binary path yourself — useful if your harness lives outside your `PATH`.
@@ -1914,7 +2014,7 @@ Cursor is **interleaved**: you can send another message while a turn is still ru
 
 &lt;a href=&quot;https://geminicli.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Gemini CLI&lt;/a&gt; is an AI agent command-line tool. It natively supports communication with external tools using the &lt;a href=&quot;https://agentclientprotocol.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Agent Client Protocol&lt;/a&gt;.
 
-The executable you configure in BeanBot is &lt;code&gt;gemini&lt;/code&gt;, run with the default launch argument &lt;code&gt;--acp --model gemini-3.5-flash&lt;/code&gt;. When you pick Gemini in the harness chooser or Options, BeanBot reminds you to change &lt;code&gt;--model&lt;/code&gt; in Process Arguments if you want a different model.
+The executable you configure in BeanBot is &lt;code&gt;gemini&lt;/code&gt;, run with the default launch argument &lt;code&gt;--acp --model gemini-3.8-flash&lt;/code&gt;. When you pick Gemini in the harness chooser or Options, BeanBot reminds you to change &lt;code&gt;--model&lt;/code&gt; in Process Arguments if you want a different model.
 
 Gemini Agent in BeanBot supports:
 - **Editor Context**: Seamlessly injects the active editor state into agent prompts.
