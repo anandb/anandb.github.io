@@ -747,7 +747,7 @@ To re-run harness selection at any time — for example after installing a new h
 After installing a harness — and optionally setting the binary path under `Options &gt; Assistant` — click **Start Server** to connect.
 
 
-&gt; [[OpenCode]] / [[PI Agent]] / [[Goose Agent]] / [[Cursor Agent]] / [[Copilot Agent]]
+&gt; [[OpenCode]] / [[Codex Agent]] / [[PI Agent]] / [[Goose Agent]] / [[Cursor Agent]] / [[Copilot Agent]]
 &gt; [[Claude Agent]] / [[Hermes Agent]] / [[Gemini Agent]] / [[Oh My Pi Agent]] / [[OpenClaw Agent]] / [[Devin Agent]]
 &gt; [[Post Install]]
 &gt; [[Restarting the server]]
@@ -1138,6 +1138,7 @@ This is a complete list of topics in this guide, use it to directly jump to that
 &gt; [[Check token usage]]
 &gt; [[Choose Your Coding Harness]]
 &gt; [[Claude Agent]]
+&gt; [[Codex Agent]]
 &gt; [[Commands]]
 &gt; [[Configuration Template]]
 &gt; [[Configure OpenCode for Ollama]]
@@ -1211,9 +1212,9 @@ This is a complete list of topics in this guide, use it to directly jump to that
   &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.23.0&lt;/i&gt;
+&lt;i style=&quot;opacity: 0.7;&quot;&gt;Last updated for BeanBot v1.24.0&lt;/i&gt;
 
-BeanBot is a NetBeans plugin that provides an AI assistant panel that lets you chat with AI models directly inside the IDE to generate, refactor and understand code, it automatically attaches active project and source file context to your messages. It also features a built-in permission handler — allowing you to inspect code diffs before applying changes and explicitly approve file deletions or terminal commands. Originally based on OpenCode, it now also supports Pi, Goose, Cursor, Claude, Hermes, Gemini, Oh My Pi, Devin, Copilot and OpenClaw.
+BeanBot is a NetBeans plugin that provides an AI assistant panel that lets you chat with AI models directly inside the IDE to generate, refactor and understand code, it automatically attaches active project and source file context to your messages. It also features a built-in permission handler — allowing you to inspect code diffs before applying changes and explicitly approve file deletions or terminal commands. Originally based on OpenCode, it now also supports Pi, Goose, Cursor, Claude, Hermes, Gemini, Oh My Pi, Devin, Copilot, Codex and OpenClaw.
 
 &gt; [[BeanBot (screenshot)-&gt;BeanBot]]
 &gt; [[Pick Your Harness]]
@@ -1785,7 +1786,7 @@ When the turn ends, all queued messages are combined into a single prompt and se
 &lt;li&gt;&lt;b&gt;Cancel Queue&lt;/b&gt; — discard all queued messages.&lt;/li&gt;
 &lt;/ul&gt;
 
-Queueing is used when a second &lt;code&gt;session/prompt&lt;/code&gt; would drop the in-flight turn. That is currently [[Goose Agent]], [[PI Agent]], [[Hermes Agent]], [[Oh My Pi Agent]], [[OpenClaw Agent]], and [[Copilot Agent]]. Interleaved agents ([[OpenCode]], [[Cursor Agent]], [[Claude Agent]], [[Gemini Agent]], [[Devin Agent]]) send immediately instead. If you close or switch sessions before the turn ends, pending messages are cancelled with the rest of the panel state.
+Queueing is used when a second &lt;code&gt;session/prompt&lt;/code&gt; would drop the in-flight turn. That is currently [[Goose Agent]], [[PI Agent]], [[Hermes Agent]], [[Oh My Pi Agent]], [[OpenClaw Agent]], [[Codex Agent]], and [[Copilot Agent]]. Interleaved agents ([[OpenCode]], [[Cursor Agent]], [[Claude Agent]], [[Gemini Agent]], [[Devin Agent]]) send immediately instead. If you close or switch sessions before the turn ends, pending messages are cancelled with the rest of the panel state.
 
 
 &gt; [[Chat Features]]
@@ -1941,6 +1942,7 @@ BeanBot doesn&#39;t talk directly to AI services, it communicates via coding age
 In this guide you might also see a harness referred to as an ACP Server, an Agent Server, or simply server, in the context of this plugin it&#39;s just a conduit for communicating with a remote LLM. These are the harnesses currently supported, pick the one you want to use. Even unlisted ones might work, but you have to experiment and find out.
 
 &gt; [[OpenCode]]
+&gt; [[Codex Agent]]
 &gt; [[PI Agent]]
 &gt; [[Goose Agent]]
 &gt; [[Claude Agent]]
@@ -2198,7 +2200,36 @@ Copilot Agent in BeanBot supports:
 &gt; [[Choose Your Coding Harness]]
 &gt; [[MCP Tools]]
 &gt; [[Picking an Agent, Model and Thinking Level]]
-&gt; [[Queuing Messages]]</tw-passagedata></tw-storydata>
+&gt; [[Queuing Messages]]</tw-passagedata><tw-passagedata pid="85" name="Codex Agent" tags="" position="2200,1200" size="100,100">&lt;div style=&quot;display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;&quot;&gt;
+  &lt;div style=&quot;font-weight: bold; text-align: left; flex-grow: 1;&quot;&gt;Codex Agent&lt;/div&gt;
+  &lt;div&gt;[[Index-&gt;Topic Index]]&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font-weight: bold; margin-top: 0.8em; margin-bottom: 0.2em;&quot;&gt;Install&lt;/div&gt;
+
+All platforms:
+
+&lt;pre&gt;&lt;code&gt;npm install -g @agentclientprotocol/codex-acp@2.2.2&lt;/code&gt;&lt;/pre&gt;
+
+The package bundles the Codex CLI, so a separate `codex` install is not needed. The first session asks you to authenticate with a ChatGPT account or an &lt;code&gt;OPENAI_API_KEY&lt;/code&gt;.
+
+&lt;div style=&quot;font-weight: bold; margin-top: 0.8em; margin-bottom: 0.2em;&quot;&gt;About&lt;/div&gt;
+
+&lt;a href=&quot;https://github.com/agentclientprotocol/codex-acp&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;codex-acp&lt;/a&gt; is an ACP adapter that exposes OpenAI Codex over the &lt;a href=&quot;https://agentclientprotocol.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Agent Client Protocol&lt;/a&gt;, which is what BeanBot speaks.
+
+The executable you configure in BeanBot is &lt;code&gt;codex-acp&lt;/code&gt;.
+
+Codex Agent in BeanBot supports:
+- **Editor Context**: the active editor state is attached to your prompts.
+- **[[MCP Tools]]**: codex-acp accepts a per-session HTTP MCP server, so BeanBot hands it the plugin&#39;s internal server automatically — no manual MCP registration is needed.
+- **Model Selection**: exposed as an ACP config option, so the in-session model dropdown works (reasoning effort rides along in the model id).
+- **Mode Switching**: the approval/sandbox presets (read-only, workspace-write, agent, full access) map to the in-session mode dropdown.
+- **[[Queuing Messages]]**: your message waits until the running turn ends before it is sent — Codex only accepts mid-turn steering through an extension BeanBot does not speak.
+
+&gt; [[Post Install]]
+&gt; [[Starting a Session]]
+&gt; [[Permission Requests]]
+&gt; [[Picking an Agent, Model and Thinking Level]]</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _defineProperty(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}var _slicedToArray=function(){function e(e,t){var n=[],r=!0,i=!1,o=void 0;try{for(var a,s=e[Symbol.iterator]();!(r=(a=s.next()).done)&&(n.push(a.value),!t||n.length!==t);r=!0);}catch(e){i=!0,o=e}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}return n}return function(t,n){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};!function(){/**
  * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
