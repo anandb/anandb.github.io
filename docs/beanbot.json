@@ -1,6 +1,6 @@
 {
-  "latest_version": "1.29.1",
-  "release_date": "2026-10-30",
-  "download_url": "https://repo1.maven.org/maven2/io/github/anandb/beanbot/1.29.1/beanbot-1.29.1.nbm",
-  "change_log": "https://github.com/anandb/nb-complete/releases/tag/v1.29.1"
+  "latest_version": "1.30.0",
+  "release_date": "2026-11-07",
+  "download_url": "https://repo1.maven.org/maven2/io/github/anandb/beanbot/1.30.0/beanbot-1.30.0.nb",
+  "change_log": "https://github.com/anandb/nb-complete/releases/tag/v1.30.0"
 }
